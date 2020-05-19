@@ -9,7 +9,7 @@ from telegraph import upload_file
 async def start(client, message):
     await client.send_message(
         chat_id=message.chat.id,
-        text=f"Hello {message.from_user.first_name},\nIm telegram to telegra.ph image uploader bot by @W4RR10R",
+        text=f"Salom {message.from_user.first_name},\nMen Telegramdagi Rasmlarni telegra.ph ga yuklab beraman. \n🎓Yaratuvchi: @JokkerKing",
         reply_to_message_id=message.message_id
     )
     
@@ -20,7 +20,7 @@ async def getimage(client, message):
         os.makedirs(location)
     imgdir = location + "/" + str(message.chat.id) + "/" + str(message.message_id) +".jpg"
     dwn = await client.send_message(
-          text="Downloading...",
+          text="Yuklanmoqda...",
           chat_id = message.chat.id,
           reply_to_message_id=message.message_id
           )          
@@ -28,11 +28,11 @@ async def getimage(client, message):
             message=message,
             file_name=imgdir
         )
-    await dwn.edit_text("Uploading...")
+    await dwn.edit_text("Biroz Kuting...")
     try:
         response = upload_file(imgdir)
     except Exception as error:
-        await dwn.edit_text(f"Oops something went wrong\n{error}")
+        await dwn.edit_text(f"Xatolik yuz berdi\n{error}")
         return
     await dwn.edit_text(f"https://telegra.ph{response[0]}")
     try:
