@@ -40,4 +40,32 @@ async def getimage(client, message):
     except:
         pass
 
+@Client.on_message(Filters.video)
+async def getvideo(client, message):
+    location = "./FILES"
+    if not os.path.isdir(location):
+        os.makedirs(location)
+    viddir = location + "/" + str(message.chat.id) + "/" + str(message.message_id) +".jpg"
+    dwn = await client.send_message(
+          text="biroz kuting...",
+          chat_id = message.chat.id,
+          reply_to_message_id=message.message_id
+          )          
+    await client.download_media(
+            message=message,
+            file_name=viddir
+        )
+    await dwn.edit_text("yuklanmoqda...")
+    try:
+        response = upload_file(viddir)
+    except Exception as error:
+        await dwn.edit_text(f"xatolik yuz berdi\n{error}")
+        return
+    await dwn.edit_text(f"https://telegra.ph{response[0]}")
+    try:
+        os.remove(viddir)
+    except:
+        pass
+
+
 
